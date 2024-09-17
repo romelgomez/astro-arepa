@@ -1,16 +1,68 @@
 ---
+import RedLayout from '../layouts/RedLayout.astro';
 
+// frontmater:: server side code
+
+interface User {
+  name: string;
+}
+
+const user: User = {
+  name: 'Romel',
+};
+
+const data = {
+  title: 'My Posts',
+  description: 'Change your acts',
+  number: 2,
+  isDraft: false,
+  favorites: ['node', 'golang', 'java', 'rust'],
+};
+
+type Todo = {
+  userId: number;
+  id: number;
+  title: string;
+  body: string;
+};
+
+const res = await fetch('https://jsonplaceholder.typicode.com/posts?_limit=5');
+const async_data: Todo[] = await res.json();
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+
+<RedLayout title="home">
+
+  <div slot="sidebar">sidebar</div>
+
+  <div slot="main">
+    <h1>Astro</h1>
+    <h2>My name is: {user.name}</h2>
+    <h1>{data.title}</h1>
+    <h3>Favorites</h3>
+
+    <div>
+      <ul>
+        {data.favorites.map((fav) => <li>{fav}</li>)}
+      </ul>
+    </div>
+
+    <h3>Async</h3>
+
+    <div>
+      <ul>
+        {
+          async_data.map((todo) => (
+            <div>
+              <h5>
+                <b>{todo.id}</b> - {todo.title}
+              </h5>
+              <p>{todo.body}</p>
+            </div>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+
+</RedLayout>

@@ -1,4 +1,5 @@
 ---
+import Link from '../components/Link.astro';
 import RedLayout from '../layouts/RedLayout.astro';
 
 // frontmater:: server side code
@@ -32,8 +33,10 @@ const async_data: Todo[] = await res.json();
 
 
 <RedLayout title="home">
-
-  <div slot="sidebar">sidebar</div>
+  <div slot="sidebar">
+    <h2>Nav</h2>
+    <Link href='/about' style={'primary'} >about</Link>
+  </div>
 
   <div slot="main">
     <h1>Astro</h1>
@@ -64,5 +67,4 @@ const async_data: Todo[] = await res.json();
       </ul>
     </div>
   </div>
-
 </RedLayout>

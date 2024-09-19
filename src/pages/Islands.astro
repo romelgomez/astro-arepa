@@ -1,21 +1,13 @@
 ---
 import Counter from '../components/Counter';
 import Heading from '../components/Heading.astro';
-import Link from '../components/Link.astro';
+import Nav from '../components/Nav.astro';
 import RedLayout from '../layouts/RedLayout.astro';
 ---
 
 <RedLayout title="home">
   <div slot="sidebar">
-    <h2>Nav</h2>
-    <ul>
-      <li>
-        <Link href='/' style={'primary'} >Home</Link>
-      </li>
-      <li>
-        <Link href='/about' style={'primary'} >About</Link>
-      </li>
-    </ul>
+    <Nav />
   </div>
 </RedLayout>
 

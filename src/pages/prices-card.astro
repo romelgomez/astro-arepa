@@ -1,0 +1,150 @@
+---
+import cardData from '../data/cardData.json';
+
+enum Tiers {
+  Free = 'Free',
+  Pro = 'Pro',
+  Enterprise = 'Enterprise',
+}
+
+const getCardClass = (tier: string) => {
+  switch (tier) {
+    case Tiers.Free:
+      return 'tier-free';
+    case Tiers.Pro:
+      return 'tier-pro';
+    case Tiers.Enterprise:
+      return 'tier-enterprise';
+    default:
+      return '';
+  }
+};
+---
+
+<h1 class="title">Prices Card</h1>
+
+<div class="price-card-container">
+  {cardData.map((card) => (
+    <div class={`price-card ${getCardClass(card.tier)}`}>
+      <div class="card-header">
+        <h2>{card.tier}</h2>
+        <p class="price">${card.amount_per_month}<span>/mo</span></p>
+      </div>
+      <p class="card-title">{card.title}</p>
+      <p class="card-description">{card.description}</p>
+      <button class="card-button">{card.btn_text}</button>
+      <ul class="card-features">
+        {card.features.map((feature) => (
+          <li class={feature.checked ? 'feature-checked' : 'feature-unchecked'}>
+            {feature.checked ? 'v/' : 'x'} {feature.title}
+          </li>
+        ))}
+      </ul>
+    </div>
+  ))}
+</div>
+
+<style>
+  .title {
+    font-size: 2rem;
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .price-card-container {
+    display: flex;
+    justify-content: space-around;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .price-card {
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 1.5rem;
+    text-align: center;
+    max-width: 300px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+    background-color: #fff;
+  }
+
+  .price-card:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  }
+
+  .card-header {
+    background-color: #f4f4f9;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+  }
+
+  .price {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 0.5rem 0;
+  }
+
+  .price span {
+    font-size: 1rem;
+    color: #666;
+  }
+
+  .card-title {
+    font-weight: bold;
+    margin: 0.5rem 0;
+  }
+
+  .card-description {
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 1.5rem;
+  }
+
+  .card-button {
+    background-color: #4c4cb2;
+    color: #fff;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-bottom: 1.5rem;
+  }
+
+  .card-button:hover {
+    background-color: #3b3ba2;
+  }
+
+  .card-features {
+    list-style: none;
+    padding: 0;
+  }
+
+  .card-features li {
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+  }
+
+  .feature-checked {
+    color: #1eac3e;
+  }
+
+  .feature-unchecked {
+    color: #d93535;
+  }
+
+  /* Tier Specific Background Colors */
+  .tier-free {
+    background-color: #f4f4f9;
+  }
+
+  .tier-pro {
+    background-color: #e8ebf5;
+  }
+
+  .tier-enterprise {
+    background-color: #f8e6c1;
+  }
+
+</style>

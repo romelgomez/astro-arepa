@@ -2,6 +2,7 @@
 import Button from '../components/Button.astro';
 import Heading from '../components/Heading.astro';
 import Link from '../components/Link.astro';
+import Nav from '../components/Nav.astro';
 import RedLayout from '../layouts/RedLayout.astro';
 
 // frontmater:: server side code
@@ -36,16 +37,8 @@ const async_data: Todo[] = await res.json();
 
 <RedLayout title="home">
   <div slot="sidebar">
-    <h2>Nav</h2>
 
-    <ul>
-      <li>
-        <Link href='/about' style={'primary'} >About</Link>
-      </li>
-      <li>
-        <Link href='/islands' style={'primary'} >Islands</Link>
-      </li>
-    </ul>
+    <Nav />
 
   </div>
 

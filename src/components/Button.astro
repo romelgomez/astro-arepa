@@ -8,10 +8,10 @@ type BtnVarieties = {
   icon: string;
 };
 
-type AstroProps = {
+type Props = {
   classes: string;
   variety: keyof BtnVarieties;
-  borderLess: boolean;
+  borderLess?: boolean;
   color?: string;
 };
 
@@ -20,13 +20,7 @@ const btnVarieties = {
   icon: 'btn--icon',
 };
 
-const {
-  classes,
-  variety,
-  borderLess = false,
-  color,
-  ...rest
-} = Astro.props as AstroProps;
+const { classes, variety, borderLess = false, color, ...rest } = Astro.props;
 ---
 
 <button class:list={

@@ -1,5 +1,6 @@
 ---
 import Button from '../components/Button.astro';
+import Heading from '../components/Heading.astro';
 import Link from '../components/Link.astro';
 import RedLayout from '../layouts/RedLayout.astro';
 
@@ -72,6 +73,10 @@ const async_data: Todo[] = await res.json();
 
     <div>
       <Button classes="primary" variety="icon" >click me</Botton>
+
+      <Heading tagName='h1' size='h4'>
+        Sub title  
+      </Heading>
     </div>
 
 

@@ -12,6 +12,7 @@ type AstroProps = {
   classes: string;
   variety: keyof BtnVarieties;
   borderLess: boolean;
+  color?: string;
 };
 
 const btnVarieties = {
@@ -23,24 +24,29 @@ const {
   classes,
   variety,
   borderLess = false,
+  color,
   ...rest
 } = Astro.props as AstroProps;
 ---
 
 <button class:list={
-  [classes, btnVarieties[variety], 
+  ['btn', classes, btnVarieties[variety], 
   {
     borderless: borderLess
-  }, {
+  },
+   {
     ...rest
   }]}
 >
   <slot></slot>
 </button>
 
-<style lang="scss">
+<style lang="scss" define:vars={{
+  color,
+}}>
+
   .primary {
-    color: cadetblue;
+    color: var(--color, cadetblue);
   }
 
   .secondary {

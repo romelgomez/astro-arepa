@@ -37,7 +37,16 @@ const async_data: Todo[] = await res.json();
 <RedLayout title="home">
   <div slot="sidebar">
     <h2>Nav</h2>
-    <Link href='/about' style={'primary'} >about</Link>
+
+    <ul>
+      <li>
+        <Link href='/about' style={'primary'} >About</Link>
+      </li>
+      <li>
+        <Link href='/islands' style={'primary'} >Islands</Link>
+      </li>
+    </ul>
+
   </div>
 
   <div slot="main">

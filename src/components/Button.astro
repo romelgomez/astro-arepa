@@ -1,0 +1,61 @@
+---
+// varieties
+// 1. text, text with icon
+// 1. icon - square
+
+type BtnVarieties = {
+  default: string;
+  icon: string;
+};
+
+type AstroProps = {
+  classes: string;
+  variety: keyof BtnVarieties;
+  borderLess: boolean;
+};
+
+const btnVarieties = {
+  default: 'btn--default',
+  icon: 'btn--icon',
+};
+
+const {
+  classes,
+  variety,
+  borderLess = false,
+  ...rest
+} = Astro.props as AstroProps;
+---
+
+<button class:list={
+  [classes, btnVarieties[variety], 
+  {
+    borderless: borderLess
+  }, {
+    ...rest
+  }]}
+>
+  <slot></slot>
+</button>
+
+<style lang="scss">
+  .primary {
+    color: cadetblue;
+  }
+
+  .secondary {
+    color: blueviolet;
+  }
+
+  .btn--default {
+    border:  cadetblue 1px solid;
+  }
+
+  .btn--icon {
+    aspect-ratio: 1/1;
+  }
+
+  .borderless {
+    border: 0;
+  }
+</style>

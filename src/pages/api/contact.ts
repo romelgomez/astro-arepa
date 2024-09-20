@@ -11,9 +11,12 @@ export const post: APIRoute = async ({ request }) => {
     // Aquí puedes procesar los datos, como guardarlos en una base de datos o enviar un correo
     console.log('Datos validados:', data);
 
-    return new Response(JSON.stringify({ message: 'Formulario enviado con éxito' }), {
-      status: 200,
-    });
+    return new Response(
+      JSON.stringify({ message: 'Formulario enviado con éxito' }),
+      {
+        status: 200,
+      },
+    );
   } catch (error) {
     if (error instanceof Error) {
       return new Response(JSON.stringify({ message: error.message }), {

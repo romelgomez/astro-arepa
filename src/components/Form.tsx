@@ -1,12 +1,7 @@
 import { useState } from 'react';
 import { z } from 'zod';
-import {
-  contactSchema,
-} from '../schemas/contact';
-import type {
-  ContactFormData
-} from '../schemas/contact';
-
+import { contactSchema } from '../schemas/contact';
+import type { ContactFormData } from '../schemas/contact';
 
 export default function Form() {
   const [formData, setFormData] = useState<ContactFormData>({
@@ -18,7 +13,9 @@ export default function Form() {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [responseMessage, setResponseMessage] = useState<string>('');
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     setFormData({
       ...formData,
       [event.target.name]: event.target.value,
@@ -31,10 +28,13 @@ export default function Form() {
       return true;
     } catch (error) {
       if (error instanceof z.ZodError) {
-        const formattedErrors = error.errors.reduce((acc, curr) => {
-          acc[curr.path[0]] = curr.message;
-          return acc;
-        }, {} as Record<string, string>);
+        const formattedErrors = error.errors.reduce(
+          (acc, curr) => {
+            acc[curr.path[0]] = curr.message;
+            return acc;
+          },
+          {} as Record<string, string>,
+        );
         setErrors(formattedErrors);
       }
       return false;
@@ -69,16 +69,15 @@ export default function Form() {
     <div>
       <h1>Contáctanos</h1>
       <form onSubmit={submitForm}>
-
         <div>
           <div>
-            <label htmlFor="name">Nombre:</label>
+            <label htmlFor='name'>Nombre:</label>
           </div>
           <div>
             <input
-              id="name"
-              type="text"
-              name="name"
+              id='name'
+              type='text'
+              name='name'
               value={formData.name}
               onChange={handleInputChange}
               required
@@ -90,12 +89,12 @@ export default function Form() {
         </div>
 
         <div>
-          <label htmlFor="email">Correo electrónico:</label>
+          <label htmlFor='email'>Correo electrónico:</label>
           <div>
             <input
-              id="email"
-              type="email"
-              name="email"
+              id='email'
+              type='email'
+              name='email'
               value={formData.email}
               onChange={handleInputChange}
               required
@@ -108,12 +107,12 @@ export default function Form() {
 
         <div>
           <div>
-            <label htmlFor="message">Mensaje:</label>
+            <label htmlFor='message'>Mensaje:</label>
           </div>
           <div>
             <textarea
-              id="message"
-              name="message"
+              id='message'
+              name='message'
               value={formData.message}
               onChange={handleInputChange}
               required
@@ -125,9 +124,8 @@ export default function Form() {
         </div>
 
         <div>
-          <button type="submit">Enviar</button>
+          <button type='submit'>Enviar</button>
         </div>
-
       </form>
 
       <p>{responseMessage}</p>

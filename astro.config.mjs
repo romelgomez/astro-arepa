@@ -8,5 +8,5 @@ import icon from 'astro-icon';
 // https://astro.build/config
 export default defineConfig({
   integrations: [react(), icon()],
-  output: 'server'
+  output: 'server',
 });

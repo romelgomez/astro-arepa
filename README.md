@@ -50,3 +50,7 @@ Feel free to check [our documentation](https://docs.astro.build) or jump into ou
 ## Recipes
 
 https://docs.astro.build/en/recipes/call-endpoints/#recipe
+
+https://docs.astro.build/en/guides/server-side-rendering/
+
+https://docs.astro.build/en/guides/integrations-guide/netlify/

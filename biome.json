@@ -1,7 +1,7 @@
 {
   "$schema": "https://biomejs.dev/schemas/1.8.1/schema.json",
   "files": {
-    "ignore": ["dist", ".nx", ".next", ".trunk"]
+    "ignore": ["dist", ".nx", ".next", ".trunk", ".netlify"]
   },
   "organizeImports": {
     "enabled": true

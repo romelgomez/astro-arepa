@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 import { contactSchema } from '../../schemas/contact';
 
-export const post: APIRoute = async ({ request }) => {
+export const POST: APIRoute = async ({ request }) => {
   try {
     const data = await request.json();
 

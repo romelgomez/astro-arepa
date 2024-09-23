@@ -2,12 +2,12 @@
 const { currentPage } = Astro.props;
 
 const links = [
-  { href: "/", label: "Home (public)" },
-  { href: "/about-us", label: "About us (public)" },
-  { href: "/dashboard", label: "Dashboard (protected)" }
+  { href: '/', label: 'Home (public)' },
+  { href: '/about-us', label: 'About us (public)' },
+  { href: '/dashboard', label: 'Dashboard (protected)' },
 ];
 
-const filteredLinks = links.filter(link => link.href !== currentPage);
+const filteredLinks = links.filter((link) => link.href !== currentPage);
 ---
 
 <div>

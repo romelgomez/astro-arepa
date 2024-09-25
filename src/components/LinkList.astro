@@ -11,10 +11,9 @@ const filteredLinks = links.filter((link) => link.href !== currentPage);
 ---
 
 <div>
-  <h2>Links</h2>
   <ul>
     {filteredLinks.map(link => (
-      <li><a href={link.href}>{link.label}</a></li>
+      <li><a class="brandon-light" href={link.href}>{link.label}</a></li>
     ))}
   </ul>
 </div>

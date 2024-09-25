@@ -1,12 +1,18 @@
 ---
-import Auth from '../components/Auth.astro';
+import Heading from '../components/Heading.astro';
 import LinkList from '../components/LinkList.astro';
+import RedLayout from '../layouts/RedLayout.astro';
 ---
 
-<h1>Dashboard!</h1>
+<RedLayout title="home">
+  <div slot="main" class="main-slot">
+    <Heading tagName='h1' size='h4' classes='neue76'>
+      Dashboard!
+    </Heading>
 
-<h2>This view is protected!</h2>
+    <h2 class='neue76'>This view is protected!</h2>
 
-<LinkList currentPage="/dashboard" />
+    <LinkList currentPage="/dashboard" />
 
-<Auth />
+  </div>
+</RedLayout>

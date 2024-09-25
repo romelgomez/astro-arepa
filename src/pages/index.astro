@@ -1,28 +1,9 @@
 ---
-import Auth from '../components/Auth.astro';
 import Button from '../components/Button.astro';
 import Heading from '../components/Heading.astro';
 import LinkList from '../components/LinkList.astro';
 import Nav from '../components/Nav.astro';
 import RedLayout from '../layouts/RedLayout.astro';
-
-// frontmater:: server side code
-
-interface User {
-  name: string;
-}
-
-const user: User = {
-  name: 'Romel',
-};
-
-const data = {
-  title: 'My Posts',
-  description: 'Change your acts',
-  number: 2,
-  isDraft: false,
-  favorites: ['node', 'golang', 'java', 'rust'],
-};
 
 type Todo = {
   userId: number;
@@ -37,25 +18,27 @@ const async_data: Todo[] = await res.json();
 
 
 <RedLayout title="home">
-  <div slot="sidebar">
+  <div slot="main" class="main-slot">
 
+    <Heading tagName='h1' size='h4' classes='neue76'>
+      EXAMPLES
+    </Heading>
+
+    <hr>
+    <br>
+    
     <Nav />
 
-  </div>
+    <Heading tagName='h2' size='h5' classes='neue15'>
+      Clerk Auth
+    </Heading>
 
-  <div slot="main">
-    <h1>Astro</h1>
-    <h2>My name is: {user.name}</h2>
-    <h1>{data.title}</h1>
-    <h3>Favorites</h3>
 
-    <div>
-      <ul>
-        {data.favorites.map((fav) => <li>{fav}</li>)}
-      </ul>
-    </div>
-
-    <h3>Async</h3>
+    <LinkList currentPage="/" />
+    
+    <Heading tagName='h2' size='h5' classes='neue15'>
+      Async
+    </Heading>
 
     <div>
       <ul>
@@ -72,25 +55,13 @@ const async_data: Todo[] = await res.json();
       </ul>
     </div>
 
-    <h3>Components</h3>
+    <Heading tagName='h2' size='h5' classes='neue15'>
+      Components
+    </Heading>
 
     <div>
       <Button classes="primary" variety="icon" >click me</Botton>
-
-      <Heading tagName='h1' size='h4'>
-        Sub title  
-      </Heading>
     </div>
-
-    <h3>Clerk Auth</h3>
-
-    <div>
-      <LinkList currentPage="/" />
-    
-      <Auth />
-    </div>
-
-
 
   </div>
 </RedLayout>

@@ -1,9 +1,13 @@
 ---
-import Button from '../components/Button.astro';
+// import Button from '../components/Button.astro';
 import Heading from '../components/Heading.astro';
 import Link from '../components/Link.astro';
 import LinkList from '../components/LinkList.astro';
 import RedLayout from '../layouts/RedLayout.astro';
+import { Button } from "@/components/ui/button";
+import { SonnerDemo } from "@/components/SonnerDemo";
+
+
 
 type Todo = {
   userId: number;
@@ -33,6 +37,8 @@ const async_data: Todo[] = await res.json();
 
 
     <LinkList currentPage="/" />
+
+    <br />
     
     <Heading tagName='h2' size='h5' classes='neue15'>
       Async
@@ -53,14 +59,6 @@ const async_data: Todo[] = await res.json();
       </ul>
     </div>
 
-    <Heading tagName='h2' size='h5' classes='neue15'>
-      Components
-    </Heading>
-
-    <div>
-      <Button classes="primary" variety="icon" >click me</Botton>
-    </div>
-
     <br />
 
     <Heading tagName='h2' size='h5' classes='neue15'>
@@ -68,6 +66,19 @@ const async_data: Todo[] = await res.json();
     </Heading>
 
     <Link href='/islands' style={'primary'} >Islands</Link>
+
+    <br />
+    <br />
+
+
+    <Heading tagName='h2' size='h5' classes='neue15'>
+      Shadcn
+    </Heading>
+
+    <Button>Hello World</Button>
+
+    <SonnerDemo client:load />
+
 
 
   </div>

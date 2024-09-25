@@ -8,6 +8,8 @@ import {
   SignedOut,
   UserButton,
 } from '@clerk/astro/components';
+import { Toaster } from "@/components/ui/sonner"
+
 
 const { title } = Astro.props;
 ---
@@ -41,9 +43,10 @@ const { title } = Astro.props;
       </ul>
     </nav>
     
-    <div class="container">
+    <div class="arepa-container">
       <slot name="sidebar"/>
       <slot name="main" />
+      <Toaster client:load />
     </div>
 
 
@@ -57,7 +60,8 @@ const { title } = Astro.props;
     background: black;
   }
 
-  .container {
+  .arepa-container {
+    /* max-width: unset;ß */
     background: #F5F1E9;
     margin: 20px;
     padding: 20px;

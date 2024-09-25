@@ -3,6 +3,7 @@ const { currentPage } = Astro.props;
 
 const links = [
   { href: '/', label: 'Home (public)' },
+  { href: '/clerk-auth', label: 'Clerk Auth (public)' },
   { href: '/about-us', label: 'About us (public)' },
   { href: '/dashboard', label: 'Dashboard (protected)' },
 ];
@@ -13,7 +14,13 @@ const filteredLinks = links.filter((link) => link.href !== currentPage);
 <div>
   <ul>
     {filteredLinks.map(link => (
-      <li><a class="brandon-light" href={link.href}>{link.label}</a></li>
+      <li><a class="brandon-light link" href={link.href}>{link.label}</a></li>
     ))}
   </ul>
 </div>
+
+<style>
+  .link:hover {
+    font-weight: 600;
+  }
+</style>

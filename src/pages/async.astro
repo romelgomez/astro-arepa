@@ -1,0 +1,41 @@
+---
+import Heading from '@/components/Heading.astro';
+import RedLayout from '../layouts/RedLayout.astro';
+
+type Todo = {
+  userId: number;
+  id: number;
+  title: string;
+  body: string;
+};
+
+const res = await fetch('https://jsonplaceholder.typicode.com/posts?_limit=5');
+const async_data: Todo[] = await res.json();
+---
+
+<RedLayout title="Async">
+
+  <div slot="main" class="main-slot">
+
+    <Heading tagName='h1' size='h4' classes='neue76'>
+      Async
+    </Heading>
+
+    <div>
+      <ul>
+        {
+          async_data.map((todo) => (
+            <div>
+              <h5>
+                <b>{todo.id}</b> - {todo.title}
+              </h5>
+              <p>{todo.body}</p>
+            </div>
+          ))
+        }
+      </ul>
+    </div>
+
+  </div>
+</RedLayout>
+

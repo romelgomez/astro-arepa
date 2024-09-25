@@ -1,90 +1,38 @@
 ---
-// import Button from '../components/Button.astro';
 import Heading from '../components/Heading.astro';
-import Link from '../components/Link.astro';
-import LinkList from '../components/LinkList.astro';
 import RedLayout from '../layouts/RedLayout.astro';
-import { Button } from "@/components/ui/button";
-import { SonnerDemo } from "@/components/SonnerDemo";
-
-
-
-type Todo = {
-  userId: number;
-  id: number;
-  title: string;
-  body: string;
-};
-
-const res = await fetch('https://jsonplaceholder.typicode.com/posts?_limit=5');
-const async_data: Todo[] = await res.json();
 ---
 
 
 <RedLayout title="home">
   <div slot="main" class="main-slot">
-
     <Heading tagName='h1' size='h4' classes='neue76'>
       EXAMPLES
     </Heading>
 
     <hr>
     <br>
-    
-    <Heading tagName='h2' size='h5' classes='neue15'>
-      Clerk Auth
-    </Heading>
 
-
-    <LinkList currentPage="/" />
-
-    <br />
-    
-    <Heading tagName='h2' size='h5' classes='neue15'>
-      Async
-    </Heading>
-
-    <div>
-      <ul>
-        {
-          async_data.map((todo) => (
-            <div>
-              <h5>
-                <b>{todo.id}</b> - {todo.title}
-              </h5>
-              <p>{todo.body}</p>
-            </div>
-          ))
-        }
-      </ul>
+    <div class="links">
+      <a href="/clerk-auth" class='link neue15'>Clerk Auth</a>
+      <a href="/async" class='link neue15'>Async</a>
+      <a href="/islands" class='link neue15'>Islands</a>
+      <a href="/islands-v2" class='link neue15'>Islands V2 - Debuging</a>
+      <a href="/shadcn" class='link neue15'>Shadcn</a>
     </div>
-
-    <br />
-
-    <Heading tagName='h2' size='h5' classes='neue15'>
-      Islands
-    </Heading>
-
-    <li>
-      <Link href='/islands' style={'primary'} >Islands</Link>
-    </li>
-    <li>
-      <Link href='/islands-v2' style={'primary'} >Islands V2 - Debuging</Link>
-    </li>
-
-    <br />
-    <br />
-
-
-    <Heading tagName='h2' size='h5' classes='neue15'>
-      Shadcn
-    </Heading>
-
-    <Button>Hello World</Button>
-
-    <SonnerDemo client:load />
-
-
 
   </div>
 </RedLayout>
+
+<style>
+  .links {
+    display: flex;
+    flex-direction: column;
+  }
+  .link {
+    font-size: 2rem;
+  }
+  .link:hover {
+    font-weight: 600;
+  }
+</style>

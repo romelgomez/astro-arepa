@@ -1,0 +1,23 @@
+---
+import Heading from '@/components/Heading.astro';
+import { SonnerDemo } from '@/components/SonnerDemo';
+import { Button } from '@/components/ui/button';
+import RedLayout from '../layouts/RedLayout.astro';
+---
+
+<RedLayout title="Shadcn">
+
+  <div slot="main" class="main-slot">
+
+    <Heading tagName='h1' size='h4' classes='neue76'>
+      Shadcn
+    </Heading>
+
+    <Button>Hello World</Button>
+
+    <SonnerDemo client:load /> 
+
+  </div>
+
+</RedLayout>
+

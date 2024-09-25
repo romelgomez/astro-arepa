@@ -1,0 +1,25 @@
+---
+import Heading from '@/components/Heading.astro';
+import LinkList from '@/components/LinkList.astro';
+import Auth from '../components/Auth.astro';
+import RedLayout from '../layouts/RedLayout.astro';
+---
+
+<RedLayout title="Clerk Auth">
+
+  <div slot="main" class="main-slot">
+
+    <Heading tagName='h1' size='h4' classes='neue76'>
+      Clerk Auth
+    </Heading>
+
+    <LinkList currentPage="/clerk-auth" />
+
+    <br>
+
+    <Auth />
+
+  </div>
+
+</RedLayout>
+

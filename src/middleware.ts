@@ -7,16 +7,18 @@ import { clerkMiddleware, createRouteMatcher } from '@clerk/astro/server';
 
 // const isProtectedRoute = createRouteMatcher(['/dashboard(.*)']);
 
-export const onRequest = clerkMiddleware((auth, context, next) => {
-  // const { redirectToSignIn, userId } = auth();
+export const onRequest = clerkMiddleware();
 
-  // if (!userId && isProtectedRoute(context.request)) {
-  //   // Add custom logic to run before redirecting
+// export const onRequest = clerkMiddleware((auth, context, next) => {
+//   // const { redirectToSignIn, userId } = auth();
 
-  //   return redirectToSignIn({
-  //     returnBackUrl: '/fonts',
-  //   });
-  // }
+//   // if (!userId && isProtectedRoute(context.request)) {
+//   //   // Add custom logic to run before redirecting
 
-  return next();
-});
+//   //   return redirectToSignIn({
+//   //     returnBackUrl: '/fonts',
+//   //   });
+//   // }
+
+//   return next();
+// });

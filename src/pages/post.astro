@@ -1,30 +1,15 @@
 ---
-import Form from '../components/Form';
+import Heading from '../components/Heading.astro';
 import PostForm from '../components/PostForm';
-import PostForm2 from '../components/PostForm2';
 import RedLayout from '../layouts/RedLayout.astro';
 ---
 
-
 <RedLayout title="Post">
-  <div slot="main">
-    <h1>Pist</h1>
+  <div slot="main" class="main-slot">
+    <Heading tagName="h1" size="h4" classes="neue76"> POST FORM </Heading>
 
     <PostForm client:load />
 
     <br />
-
-    <hr />
-
-    <PostForm2 client:load />
-
-    <br />
-
-    <hr />
-
-    <Form client:load />
-
-    <br />
-    
   </div>
 </RedLayout>

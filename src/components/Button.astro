@@ -23,22 +23,28 @@ const btnVarieties = {
 const { classes, variety, borderLess = false, color, ...rest } = Astro.props;
 ---
 
-<button class:list={
-  ['btn', classes, btnVarieties[variety], 
-  {
-    borderless: borderLess
-  },
-   {
-    ...rest
-  }]}
+<button
+  class:list={[
+    'btn',
+    classes,
+    btnVarieties[variety],
+    {
+      borderless: borderLess,
+    },
+    {
+      ...rest,
+    },
+  ]}
 >
-  <slot></slot>
+  <slot />
 </button>
 
-<style lang="scss" define:vars={{
-  color,
-}}>
-
+<style
+  lang="scss"
+  define:vars={{
+    color,
+  }}
+>
   .primary {
     color: var(--color, cadetblue);
   }
@@ -48,7 +54,7 @@ const { classes, variety, borderLess = false, color, ...rest } = Astro.props;
   }
 
   .btn--default {
-    border:  cadetblue 1px solid;
+    border: cadetblue 1px solid;
   }
 
   .btn--icon {

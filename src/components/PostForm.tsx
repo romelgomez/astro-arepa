@@ -1,158 +1,184 @@
-// src/components/PostForm.tsx
-// biome-ignore lint/style/useImportType: <explanation>
-import React from 'react';
-import { useState, useCallback } from 'react';
-import { z } from 'zod';
-import { postSchema } from '../schemas/post';
-import type { PostFormData } from '../schemas/post';
+'use client';
 
-const initialFormData: PostFormData = {
-  title: '',
-  sub_title: '',
-  published: false,
-  description: '',
-};
+import { useToast } from '@/hooks/use-toast';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+
+import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+
+// Define the schema for form validation using Zod
+const postSchema = z.object({
+  title: z.string().min(1, { message: 'Title is required' }),
+  sub_title: z
+    .string()
+    .max(100, { message: "Subtitle can't be longer than 100 characters" })
+    .optional(),
+  published: z.boolean().default(false),
+  description: z.string().min(1, { message: 'Description is required' }),
+});
+
+type PostFormData = z.infer<typeof postSchema>;
 
 export default function PostForm() {
-  const [formData, setFormData] = useState<PostFormData>(initialFormData);
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  const [responseMessage, setResponseMessage] = useState<string>('');
+  const { toast } = useToast();
 
-  const handleInputChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-      const { name, value, type } = event.target;
-      const updatedValue = type === 'checkbox' ? (event.target as HTMLInputElement).checked : value;
-      setFormData((prevData) => ({
-        ...prevData,
-        [name]: updatedValue,
-      }));
+  const form = useForm<PostFormData>({
+    resolver: zodResolver(postSchema),
+    defaultValues: {
+      title: '',
+      sub_title: '',
+      published: false,
+      description: '',
     },
-    []
-  );
+  });
 
-  const validateForm = (data: PostFormData): boolean => {
+  async function onSubmit(data: PostFormData) {
     try {
-      postSchema.parse(data);
-      setErrors({});
-      return true;
-    } catch (error) {
-      if (error instanceof z.ZodError) {
-        const formattedErrors = error.errors.reduce((acc, curr) => {
-          acc[curr.path[0]] = curr.message;
-          return acc;
-        }, {} as Record<string, string>);
-  
-        setErrors(formattedErrors);
+      const response = await fetch('http://localhost:3000/api/v1/post', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        toast({
+          title: 'Post created successfully!',
+          description: (
+            <pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
+              <code className='text-white'>Post has been saved.</code>
+            </pre>
+          ),
+        });
+        form.reset(); // Reset the form fields
+      } else {
+        const errorData = await response.json();
+        toast({
+          title: 'Error',
+          description: errorData.message || 'Failed to create post',
+          variant: 'destructive',
+        });
       }
-      return false;
+    } catch (error) {
+      toast({
+        title: 'An unexpected error occurred.',
+        description: 'Please try again later.',
+        variant: 'destructive',
+      });
     }
-  };
-
-  const submitForm = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    if (!validateForm(formData)) return;
-
-    console.log('formData', formData);
-
-    // try {
-    //   const response = await fetch('/api/posts', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify(formData),
-    //   });
-
-    //   if (response.ok) {
-    //     setResponseMessage('Post created successfully!');
-    //     setFormData(initialFormData); // Reset form
-    //   } else {
-    //     const errorData = await response.json();
-    //     setResponseMessage(`Error: ${errorData.message || 'Failed to create post'}`);
-    //   }
-    // } catch (error) {
-    //   setResponseMessage('An unexpected error occurred.');
-    // }
-  };
+  }
 
   return (
-    <div>
-      <h1>Create a New Post</h1>
-      <form onSubmit={submitForm} noValidate>
-        <FormField
-          label="Title"
-          id="title"
-          name="title"
-          type="text"
-          value={formData.title}
-          onChange={handleInputChange}
-          error={errors.title}
-          required
-        />
-
-        <FormField
-          label="Subtitle"
-          id="sub_title"
-          name="sub_title"
-          type="text"
-          value={formData.sub_title || ''}
-          onChange={handleInputChange}
-          error={errors.sub_title}
-        />
-
-        <div>
-          <label htmlFor="published">Published:</label>
-          <input
-            id="published"
-            type="checkbox"
-            name="published"
-            checked={formData.published}
-            onChange={handleInputChange}
+    <div className='bg-gray-100 p-8 rounded-lg shadow-lg max-w-2xl mx-auto mt-10'>
+      <h1 className='text-3xl font-bold mb-8 text-center'>Post Form</h1>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
+          <FormField
+            control={form.control}
+            name='title'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className='text-lg font-semibold'>Title</FormLabel>
+                <FormControl>
+                  <Input
+                    className='w-full p-3 rounded border-gray-300'
+                    placeholder='Enter title'
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-        </div>
 
-        <FormField
-          label="Description"
-          id="description"
-          name="description"
-          type="textarea"
-          value={formData.description}
-          onChange={handleInputChange}
-          error={errors.description}
-          required
-        />
+          <FormField
+            control={form.control}
+            name='sub_title'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className='text-lg font-semibold'>
+                  Subtitle
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    className='w-full p-3 rounded border-gray-300'
+                    placeholder='Enter subtitle (optional)'
+                    {...field}
+                  />
+                </FormControl>
+                <FormDescription>This is optional.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <button type="submit">Create Post</button>
-      </form>
+          <FormField
+            control={form.control}
+            name='published'
+            render={({ field }) => (
+              <FormItem className='flex items-center space-x-4'>
+                <FormLabel className='text-lg font-semibold'>
+                  Published
+                </FormLabel>
+                <FormControl>
+                  <Checkbox
+                    className='h-5 w-5 rounded border-gray-300'
+                    checked={field.value}
+                    onCheckedChange={field.onChange}
+                  />
+                </FormControl>
+                <FormDescription>
+                  Check if you want to publish this post.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-      {responseMessage && <p>{responseMessage}</p>}
-    </div>
-  );
-}
+          <FormField
+            control={form.control}
+            name='description'
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className='text-lg font-semibold'>
+                  Description
+                </FormLabel>
+                <FormControl>
+                  <Textarea
+                    className='w-full p-3 rounded border-gray-300'
+                    placeholder='Enter description'
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-// Reusable FormField component
-interface FormFieldProps {
-  label: string;
-  id: string;
-  name: string;
-  type: 'text' | 'textarea';
-  value: string;
-  onChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-  error?: string;
-  required?: boolean;
-}
-
-function FormField({ label, id, name, type, value, onChange, error, required }: FormFieldProps) {
-  return (
-    <div>
-      <label htmlFor={id}>{label}:</label>
-      {type === 'textarea' ? (
-        <textarea id={id} name={name} value={value} onChange={onChange} required={required} />
-      ) : (
-        <input id={id} type={type} name={name} value={value} onChange={onChange} required={required} />
-      )}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+          <div className='text-center'>
+            <Button
+              className='bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg'
+              type='submit'
+            >
+              Create Post
+            </Button>
+          </div>
+        </form>
+      </Form>
     </div>
   );
 }

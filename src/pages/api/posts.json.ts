@@ -1,6 +1,6 @@
 // src/pages/api/[postId].json.ts
 import type { APIRoute } from 'astro';
-import type { PostUpdate, PostResponse } from '../../types/post';
+import type { PostResponse, PostUpdate } from '../../types/post';
 
 const API_BASE_URL = 'http://localhost:3000/api/v1/post';
 
@@ -35,7 +35,7 @@ export const PATCH: APIRoute = async ({ params, request }) => {
     const postData: PostUpdate = await request.json();
 
     if (!params.postId) {
-      throw Error("post id is undefined")
+      throw Error('post id is undefined');
     }
 
     postData.id = params.postId; // Ensure the postId is set correctly

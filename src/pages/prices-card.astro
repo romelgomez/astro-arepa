@@ -24,24 +24,31 @@ const getCardClass = (tier: string) => {
 <h1 class="title">Prices Card</h1>
 
 <div class="price-card-container">
-  {cardData.map((card) => (
-    <div class={`price-card ${getCardClass(card.tier)}`}>
-      <div class="card-header">
-        <h2>{card.tier}</h2>
-        <p class="price">${card.amount_per_month}<span>/mo</span></p>
+  {
+    cardData.map((card) => (
+      <div class={`price-card ${getCardClass(card.tier)}`}>
+        <div class="card-header">
+          <h2>{card.tier}</h2>
+          <p class="price">
+            ${card.amount_per_month}
+            <span>/mo</span>
+          </p>
+        </div>
+        <p class="card-title">{card.title}</p>
+        <p class="card-description">{card.description}</p>
+        <button class="card-button">{card.btn_text}</button>
+        <ul class="card-features">
+          {card.features.map((feature) => (
+            <li
+              class={feature.checked ? 'feature-checked' : 'feature-unchecked'}
+            >
+              {feature.checked ? 'v/' : 'x'} {feature.title}
+            </li>
+          ))}
+        </ul>
       </div>
-      <p class="card-title">{card.title}</p>
-      <p class="card-description">{card.description}</p>
-      <button class="card-button">{card.btn_text}</button>
-      <ul class="card-features">
-        {card.features.map((feature) => (
-          <li class={feature.checked ? 'feature-checked' : 'feature-unchecked'}>
-            {feature.checked ? 'v/' : 'x'} {feature.title}
-          </li>
-        ))}
-      </ul>
-    </div>
-  ))}
+    ))
+  }
 </div>
 
 <style>
@@ -146,5 +153,4 @@ const getCardClass = (tier: string) => {
   .tier-enterprise {
     background-color: #f8e6c1;
   }
-
 </style>

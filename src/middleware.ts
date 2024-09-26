@@ -14,7 +14,7 @@ export const onRequest = clerkMiddleware((auth, context, next) => {
     // Add custom logic to run before redirecting
 
     return redirectToSignIn({
-      returnBackUrl: '/',
+      returnBackUrl: '/fonts',
     });
   }
 

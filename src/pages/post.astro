@@ -1,0 +1,30 @@
+---
+import Form from '../components/Form';
+import PostForm from '../components/PostForm';
+import PostForm2 from '../components/PostForm2';
+import RedLayout from '../layouts/RedLayout.astro';
+---
+
+
+<RedLayout title="Post">
+  <div slot="main">
+    <h1>Pist</h1>
+
+    <PostForm client:load />
+
+    <br />
+
+    <hr />
+
+    <PostForm2 client:load />
+
+    <br />
+
+    <hr />
+
+    <Form client:load />
+
+    <br />
+    
+  </div>
+</RedLayout>

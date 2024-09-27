@@ -2,7 +2,7 @@
 import type { APIRoute } from 'astro';
 import type { PostResponse, PostUpdate } from '../../types/post';
 
-const API_BASE_URL = 'http://localhost:3000/api/v1/post';
+const API_BASE_URL = import.meta.env.PUBLIC_API_BASE_URL;
 
 // GET - Retrieve a single post
 export const GET: APIRoute = async ({ params }) => {

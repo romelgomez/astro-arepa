@@ -4,6 +4,7 @@
 import { Button } from '@/components/ui/button';
 import type { ColumnDef } from '@tanstack/react-table';
 import { toast } from 'sonner';
+const PUBLIC_API_BASE_URL = import.meta.env.PUBLIC_API_BASE_URL;
 
 // Define the type for your posts
 export type Post = {
@@ -44,12 +45,9 @@ export const columns: ColumnDef<Post>[] = [
         if (!confirmed) return;
 
         try {
-          const response = await fetch(
-            `http://localhost:3000/api/v1/post/${postId}`,
-            {
-              method: 'DELETE',
-            },
-          );
+          const response = await fetch(`${PUBLIC_API_BASE_URL}${postId}`, {
+            method: 'DELETE',
+          });
 
           if (response.ok) {
             toast.success('Post deleted successfully!', {

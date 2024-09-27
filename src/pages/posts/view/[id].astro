@@ -3,6 +3,7 @@ import Heading from '../../../components/Heading.astro';
 import { Button } from '../../../components/ui/button';
 import RedLayout from '../../../layouts/RedLayout.astro';
 import type { PostResponse } from '../../../types/post'; // Import the PostResponse type
+const API_BASE_URL = import.meta.env.PUBLIC_API_BASE_URL;
 
 // Extract the post ID from the URL
 const postId = Astro.url.pathname.split('/').pop();
@@ -11,7 +12,7 @@ const postId = Astro.url.pathname.split('/').pop();
 let post: PostResponse | null = null;
 
 try {
-  const res = await fetch(`http://localhost:3000/api/v1/post/${postId}`);
+  const res = await fetch(`${API_BASE_URL}${postId}`);
   if (res.ok) {
     const response = await res.json();
     if (response.code === 200 && response.status === 'OK') {

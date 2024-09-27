@@ -9,8 +9,10 @@ const postId = Astro.url.pathname.split('/').pop();
 
 let post: PostResponse | null = null;
 
+const API_BASE_URL = import.meta.env.PUBLIC_API_BASE_URL;
+
 try {
-  const res = await fetch(`http://localhost:3000/api/v1/post/${postId}`);
+  const res = await fetch(`${API_BASE_URL}${postId}`);
   if (res.ok) {
     const response = await res.json();
     if (response.code === 200 && response.status === 'OK') {

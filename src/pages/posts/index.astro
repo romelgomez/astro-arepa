@@ -5,10 +5,12 @@ import { DataTable } from '../../components/posts/data-table';
 import { Button } from '../../components/ui/button';
 import RedLayout from '../../layouts/RedLayout.astro';
 
+const PUBLIC_API_BASE_URL = import.meta.env.PUBLIC_API_BASE_URL;
+
 let posts = [];
 
 try {
-  const res = await fetch('http://localhost:3000/api/v1/post');
+  const res = await fetch(PUBLIC_API_BASE_URL);
   const { data } = await res.json();
   posts = data;
 } catch (error) {

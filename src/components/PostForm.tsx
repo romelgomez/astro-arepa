@@ -21,6 +21,8 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import type { PostResponse } from '../types/post';
 
+const PUBLIC_API_BASE_URL = import.meta.env.PUBLIC_API_BASE_URL;
+
 const postSchema = z.object({
   id: z.string().optional(),
   title: z.string().min(1, { message: 'Title is required' }),
@@ -58,7 +60,7 @@ export const PostForm: React.FC<PostFormProps> = ({ post }) => {
   async function onSubmit(data: PostFormData) {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/v1/post${post ? `/${post.id}` : ''}`,
+        `${PUBLIC_API_BASE_URL}${post ? `${post.id}` : ''}`,
         {
           method: post ? 'PATCH' : 'POST',
           headers: {

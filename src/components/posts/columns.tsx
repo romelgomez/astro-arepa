@@ -2,8 +2,8 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-// import { useToast } from '@/hooks/use-toast';
 import type { ColumnDef } from '@tanstack/react-table';
+import { toast } from 'sonner';
 
 // Define the type for your posts
 export type Post = {
@@ -37,44 +37,42 @@ export const columns: ColumnDef<Post>[] = [
     header: 'Actions',
     cell: ({ row }) => {
       const postId = row.original.id;
-      // const { toast } = useToast();
 
       // Function to handle the delete action
-      // const handleDelete = async () => {
-      //   const confirmed = confirm('Are you sure you want to delete this post?');
-      //   if (!confirmed) return;
+      const handleDelete = async () => {
+        const confirmed = confirm('Are you sure you want to delete this post?');
+        if (!confirmed) return;
 
-      //   try {
-      //     const response = await fetch(
-      //       `http://localhost:3000/api/v1/post/${postId}`,
-      //       {
-      //         method: 'DELETE',
-      //       },
-      //     );
+        try {
+          const response = await fetch(
+            `http://localhost:3000/api/v1/post/${postId}`,
+            {
+              method: 'DELETE',
+            },
+          );
 
-      //     if (response.ok) {
-      //       toast({
-      //         title: 'Success',
-      //         description: 'Post deleted successfully!',
-      //       });
-      //       // Optionally, trigger a refetch of your data here to update the table
-      //       window.location.reload(); // Refresh the page to update the data (or refetch data in a more optimized way)
-      //     } else {
-      //       const errorData = await response.json();
-      //       toast({
-      //         title: 'Error',
-      //         description: errorData.message || 'Failed to delete post',
-      //         variant: 'destructive',
-      //       });
-      //     }
-      //   } catch (error) {
-      //     toast({
-      //       title: 'An unexpected error occurred.',
-      //       description: 'Please try again later.',
-      //       variant: 'destructive',
-      //     });
-      //   }
-      // };
+          if (response.ok) {
+            toast.success('Post deleted successfully!', {
+              position: 'top-center',
+              duration: 3000,
+            });
+            window.location.reload();
+          } else {
+            const errorData = await response.json();
+            toast.error('Error', {
+              description: errorData.message || 'Failed to delete post',
+              position: 'bottom-right',
+              duration: 5000,
+            });
+          }
+        } catch (error) {
+          toast.error('An unexpected error occurred.', {
+            description: 'Please try again later.',
+            position: 'bottom-left',
+            duration: 5000,
+          });
+        }
+      };
 
       return (
         <div className='flex space-x-2'>
@@ -88,12 +86,9 @@ export const columns: ColumnDef<Post>[] = [
               Edit
             </Button>
           </a>
-          {/* <Button variant='destructive' size='sm' onClick={handleDelete}>
+          <Button variant='destructive' size='sm' onClick={handleDelete}>
             Delete
-          </Button> */}
-          {/* <Button variant='destructive' size='sm' onClick={handleToast}>
-            toast
-          </Button> */}
+          </Button>
         </div>
       );
     },

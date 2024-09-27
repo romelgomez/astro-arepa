@@ -5,15 +5,15 @@ import { DataTable } from '../../components/posts/data-table';
 import { Button } from '../../components/ui/button';
 import RedLayout from '../../layouts/RedLayout.astro';
 
-// import Heading from '../components/Heading.astro';
-// import { columns } from '../components/posts/columns';
-// import { DataTable } from '../components/posts/data-table';
-// import { Button } from '../components/ui/button';
-// import RedLayout from '../layouts/RedLayout.astro';
+let posts = [];
 
-// Fetch data from the endpoint
-const res = await fetch('http://localhost:3000/api/v1/post');
-const { data: posts } = await res.json();
+try {
+  const res = await fetch('http://localhost:3000/api/v1/post');
+  const { data } = await res.json();
+  posts = data;
+} catch (error) {
+  console.error(error);
+}
 ---
 
 <RedLayout title="Post">

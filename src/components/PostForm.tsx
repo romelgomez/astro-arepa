@@ -3,8 +3,10 @@
 import { useToast } from '@/hooks/use-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { useEffect } from 'react';
 import { z } from 'zod';
 
+import type { PostResponse } from '../types/post';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
@@ -19,8 +21,8 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 
-// Define the schema for form validation using Zod
 const postSchema = z.object({
+  id: z.string().optional(),
   title: z.string().min(1, { message: 'Title is required' }),
   sub_title: z
     .string()
@@ -32,12 +34,18 @@ const postSchema = z.object({
 
 type PostFormData = z.infer<typeof postSchema>;
 
-export default function PostForm() {
+
+interface PostFormProps {
+  post?: PostResponse; // Use the imported type here
+}
+
+
+export default function PostForm({ post }: PostFormProps) {
   const { toast } = useToast();
 
   const form = useForm<PostFormData>({
     resolver: zodResolver(postSchema),
-    defaultValues: {
+    defaultValues: post || {
       title: '',
       sub_title: '',
       published: false,
@@ -45,10 +53,16 @@ export default function PostForm() {
     },
   });
 
+  useEffect(() => {
+    if (post) {
+      form.reset(post);
+    }
+  }, [post, form]);
+
   async function onSubmit(data: PostFormData) {
     try {
-      const response = await fetch('http://localhost:3000/api/v1/post', {
-        method: 'POST',
+      const response = await fetch(`http://localhost:3000/api/v1/post${post ? `/${post.id}` : ''}`, {
+        method: post ? 'PATCH' : 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -57,19 +71,19 @@ export default function PostForm() {
 
       if (response.ok) {
         toast({
-          title: 'Post created successfully!',
+          title: post ? 'Post updated successfully!' : 'Post created successfully!',
           description: (
             <pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
-              <code className='text-white'>Post has been saved.</code>
+              <code className='text-white'>{post ? 'Post has been updated.' : 'Post has been saved.'}</code>
             </pre>
           ),
         });
-        form.reset(); // Reset the form fields
+
       } else {
         const errorData = await response.json();
         toast({
           title: 'Error',
-          description: errorData.message || 'Failed to create post',
+          description: errorData.message || 'Failed to save post',
           variant: 'destructive',
         });
       }
@@ -82,9 +96,12 @@ export default function PostForm() {
     }
   }
 
+
   return (
     <div className='bg-gray-100 p-8 rounded-lg shadow-lg max-w-2xl mx-auto mt-10'>
-      <h1 className='text-3xl font-bold mb-8 text-center'>Post Form</h1>
+      <h1 className='text-3xl font-bold mb-8 text-center'>
+        {post ? 'Edit Post' : 'Create Post'}
+      </h1>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className='space-y-6'>
           <FormField
@@ -110,9 +127,7 @@ export default function PostForm() {
             name='sub_title'
             render={({ field }) => (
               <FormItem>
-                <FormLabel className='text-lg font-semibold'>
-                  Subtitle
-                </FormLabel>
+                <FormLabel className='text-lg font-semibold'>Subtitle</FormLabel>
                 <FormControl>
                   <Input
                     className='w-full p-3 rounded border-gray-300'
@@ -131,9 +146,7 @@ export default function PostForm() {
             name='published'
             render={({ field }) => (
               <FormItem className='flex items-center space-x-4'>
-                <FormLabel className='text-lg font-semibold'>
-                  Published
-                </FormLabel>
+                <FormLabel className='text-lg font-semibold'>Published</FormLabel>
                 <FormControl>
                   <Checkbox
                     className='h-5 w-5 rounded border-gray-300'
@@ -141,9 +154,7 @@ export default function PostForm() {
                     onCheckedChange={field.onChange}
                   />
                 </FormControl>
-                <FormDescription>
-                  Check if you want to publish this post.
-                </FormDescription>
+                <FormDescription>Check if you want to publish this post.</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -154,9 +165,7 @@ export default function PostForm() {
             name='description'
             render={({ field }) => (
               <FormItem>
-                <FormLabel className='text-lg font-semibold'>
-                  Description
-                </FormLabel>
+                <FormLabel className='text-lg font-semibold'>Description</FormLabel>
                 <FormControl>
                   <Textarea
                     className='w-full p-3 rounded border-gray-300'
@@ -174,7 +183,7 @@ export default function PostForm() {
               className='bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg'
               type='submit'
             >
-              Create Post
+              {post ? 'Update Post' : 'Create Post'}
             </Button>
           </div>
         </form>

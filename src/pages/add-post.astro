@@ -1,15 +1,24 @@
 ---
 import Heading from '../components/Heading.astro';
 import PostForm from '../components/PostForm';
+import { Button } from '../components/ui/button';
 import RedLayout from '../layouts/RedLayout.astro';
 ---
 
 <RedLayout title="Post">
   <div slot="main" class="main-slot">
-    <Heading tagName="h1" size="h4" classes="neue76"> POST FORM </Heading>
+    <Heading tagName="h1" size="h4" classes="neue76"> ADD POST </Heading>
+
+    <a href="/posts">
+      <Button variant='outline'>
+        View Posts
+      </Button>
+    </a>
 
     <PostForm client:load />
 
+  
     <br />
   </div>
 </RedLayout>
+

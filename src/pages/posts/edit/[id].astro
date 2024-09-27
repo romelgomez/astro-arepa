@@ -1,6 +1,6 @@
 ---
 import Heading from '../../../components/Heading.astro';
-import PostForm from '../../../components/PostForm';
+import { PostForm } from '../../../components/PostForm';
 import { Button } from '../../../components/ui/button';
 import RedLayout from '../../../layouts/RedLayout.astro';
 import type { PostResponse } from '../../../types/post';
@@ -32,6 +32,9 @@ try {
 
     {
       post ? (
+        // TODO
+        // Type '{ post: PostResponse; "client:load": true; }' is not assignable to type 'IntrinsicAttributes'.
+        // Property 'post' does not exist on type 'IntrinsicAttributes'.
         <PostForm post={post} client:load />
       ) : (
         <p class="text-red-500 mt-6">Post not found or unable to load data.</p>

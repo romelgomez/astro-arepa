@@ -1,9 +1,11 @@
 'use client';
 
-import { useToast } from '@/hooks/use-toast';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+// TODO delect or use the example
+// import { useToast } from '@/hooks/use-toast';
+import { toast } from 'sonner';
 import { z } from 'zod';
 
 import { Button } from '@/components/ui/button';
@@ -38,8 +40,8 @@ interface PostFormProps {
   post?: PostResponse; // Use the imported type here
 }
 
-export default function PostForm({ post }: PostFormProps) {
-  const { toast } = useToast();
+export const PostForm: React.FC<PostFormProps> = ({ post }) => {
+  // const { toast } = useToast();
 
   const form = useForm<PostFormData>({
     resolver: zodResolver(postSchema),
@@ -57,6 +59,22 @@ export default function PostForm({ post }: PostFormProps) {
     }
   }, [post, form]);
 
+  const toastHandler = () => {
+    // toast({
+    //   title: 'Error',
+    //   description: 'Failed to save post',
+    //   variant: 'destructive',
+    // });
+
+    toast('Event has been created', {
+      description: 'Sunday, December 03, 2023 at 9:00 AM',
+      action: {
+        label: 'Undo',
+        onClick: () => console.log('Undo'),
+      },
+    });
+  };
+
   async function onSubmit(data: PostFormData) {
     try {
       const response = await fetch(
@@ -71,32 +89,44 @@ export default function PostForm({ post }: PostFormProps) {
       );
 
       if (response.ok) {
-        toast({
-          title: post
-            ? 'Post updated successfully!'
-            : 'Post created successfully!',
-          description: (
-            <pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
-              <code className='text-white'>
-                {post ? 'Post has been updated.' : 'Post has been saved.'}
-              </code>
-            </pre>
-          ),
-        });
+        // toast({
+        //   title: post
+        //     ? 'Post updated successfully!'
+        //     : 'Post created successfully!',
+        //   description: (
+        //     <pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
+        //       <code className='text-white'>
+        //         {post ? 'Post has been updated.' : 'Post has been saved.'}
+        //       </code>
+        //     </pre>
+        //   ),
+        // });
+
+        toast(
+          post ? 'Post updated successfully!' : 'Post created successfully!',
+        );
       } else {
         const errorData = await response.json();
-        toast({
-          title: 'Error',
+        // toast({
+        //   title: 'Error',
+        //   description: errorData.message || 'Failed to save post',
+        //   variant: 'destructive',
+        // });
+
+        toast('Error', {
           description: errorData.message || 'Failed to save post',
-          variant: 'destructive',
         });
       }
     } catch (error) {
-      toast({
-        title: 'An unexpected error occurred.',
+      toast('An unexpected error occurred.', {
         description: 'Please try again later.',
-        variant: 'destructive',
       });
+
+      // toast({
+      //   title: 'An unexpected error occurred.',
+      //   description: 'Please try again later.',
+      //   variant: 'destructive',
+      // });
     }
   }
 
@@ -199,6 +229,12 @@ export default function PostForm({ post }: PostFormProps) {
           </div>
         </form>
       </Form>
+
+      <br />
+
+      <Button variant='outline' onClick={toastHandler}>
+        Show Toast
+      </Button>
     </div>
   );
-}
+};

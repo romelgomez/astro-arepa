@@ -84,7 +84,7 @@ export const columns: ColumnDef<Post>[] = [
               Edit
             </Button>
           </a>
-          <Button variant='destructive' size='sm' onClick={handleDelete}>
+          <Button variant='destructive' size='sm' onClick={handleDelete} disabled>
             Delete
           </Button>
         </div>

@@ -38,9 +38,10 @@ type PostFormData = z.infer<typeof postSchema>;
 
 interface PostFormProps {
   post?: PostResponse;
+  authToken?: string | null;
 }
 
-export const PostForm: React.FC<PostFormProps> = ({ post }) => {
+export const PostForm: React.FC<PostFormProps> = ({ post, authToken }) => {
   const form = useForm<PostFormData>({
     resolver: zodResolver(postSchema),
     defaultValues: post || {
@@ -65,6 +66,7 @@ export const PostForm: React.FC<PostFormProps> = ({ post }) => {
           method: post ? 'PATCH' : 'POST',
           headers: {
             'Content-Type': 'application/json',
+            Authorization: `Bearer ${authToken}`,
           },
           body: JSON.stringify(data),
         },
@@ -87,6 +89,12 @@ export const PostForm: React.FC<PostFormProps> = ({ post }) => {
             duration: 5000,
           },
         );
+      } else if (response.status === 401) {
+        toast.error('Unauthorized Access', {
+          description: '401 Unauthorized. Please log in and try again.',
+          position: 'bottom-right',
+          duration: 8000,
+        });
       } else {
         const errorData = await response.json();
         toast.error('Error', {

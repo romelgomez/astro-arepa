@@ -22,6 +22,19 @@ try {
 } catch (error) {
   console.error('Error fetching the post:', error);
 }
+
+// TODO: is duplicated
+type AstroLocals = {
+  authToken?: string | null;
+  authStatus: 'signed-in' | 'signed-out';
+
+  // authMessage: string;
+  // authReason: string;
+  // auth: [Function (anonymous)],
+  // currentUser: [AsyncFunction (anonymous)]
+};
+
+const { authToken } = Astro.locals as unknown as AstroLocals;
 ---
 
 <RedLayout title="Edit Post">
@@ -34,10 +47,7 @@ try {
 
     {
       post ? (
-        // TODO
-        // Type '{ post: PostResponse; "client:load": true; }' is not assignable to type 'IntrinsicAttributes'.
-        // Property 'post' does not exist on type 'IntrinsicAttributes'.
-        <PostForm post={post} client:load />
+        <PostForm post={post} authToken={authToken} client:load />
       ) : (
         <p class="text-red-500 mt-6">Post not found or unable to load data.</p>
       )

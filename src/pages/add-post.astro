@@ -3,6 +3,19 @@ import Heading from '../components/Heading.astro';
 import { PostForm } from '../components/PostForm';
 import { Button } from '../components/ui/button';
 import RedLayout from '../layouts/RedLayout.astro';
+
+// TODO: is duplicated
+type AstroLocals = {
+  authToken?: string | null;
+  authStatus: 'signed-in' | 'signed-out';
+
+  // authMessage: string;
+  // authReason: string;
+  // auth: [Function (anonymous)],
+  // currentUser: [AsyncFunction (anonymous)]
+};
+
+const { authToken } = Astro.locals as unknown as AstroLocals;
 ---
 
 <RedLayout title="Post">
@@ -13,7 +26,7 @@ import RedLayout from '../layouts/RedLayout.astro';
       <Button variant="outline"> View Posts </Button>
     </a>
 
-    <PostForm client:load />
+    <PostForm client:load authToken={authToken} />
 
     <br />
   </div>

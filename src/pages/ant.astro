@@ -1,0 +1,21 @@
+---
+import Heading from '@/components/Heading.astro';
+import type { DatePickerProps } from 'antd';
+import AntExample from '../components/AntExample';
+import RedLayout from '../layouts/RedLayout.astro';
+
+const onChange: DatePickerProps['onChange'] = (date, dateString) => {
+  console.log(date, dateString);
+};
+---
+
+<RedLayout title="Ant">
+  <div slot="main" class="main-slot">
+    <Heading tagName="h1" size="h4" classes="neue76"> ANT DESIGN</Heading>
+
+    <AntExample client:load/>
+
+    <hr />
+    <br />
+  </div>
+</RedLayout>

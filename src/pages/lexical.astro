@@ -1,0 +1,34 @@
+---
+import Heading from '@/components/Heading.astro';
+import LexicalEditor from '@/components/editor/Editor';
+import RedLayout from '../layouts/RedLayout.astro';
+---
+
+<RedLayout title="LEXICAL">
+  <div slot="main" class="main-slot">
+    <Heading tagName="h1" size="h4" classes="neue76"> LEXICAL</Heading>
+
+    REF:
+
+    <ul>
+      <li>https://github.com/facebook/lexical</li>
+      <li>https://github.com/facebook/lexical#getting-started-with-react</li>
+      <li>https://lexical.dev/docs/react/plugins#lexicalautolinkplugin</li>
+      <li>
+        https://github.com/facebook/lexical/tree/main/packages/lexical-playground
+      </li>
+      <li>https://www.youtube.com/watch?v=aXAQ_ZVFI5Q</li>
+      <li>https://www.youtube.com/watch?v=N6EW5HcCCZE</li>
+    </ul>
+
+    <br />
+    <br />
+    <hr />
+    <br />
+    <br />
+
+    <LexicalEditor client:load />
+  </div>
+</RedLayout>
+
+<style></style>
